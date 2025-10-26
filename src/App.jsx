@@ -1,91 +1,44 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 function App() {
-  const [fullName, setFullName] = useState("");
-  const [gender, setGender] = useState("");
-  const [agree, setAgree] = useState(false);
+  // 🧠 Tạo ref cho mỗi input
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
 
+  // 📤 Hàm xử lý submit
   const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(
-      `Họ tên: ${fullName}\nGiới tính: ${gender}\nĐồng ý: ${
-        agree ? " Có" : " Không"
-      }`
-    );
+    e.preventDefault(); // chặn reload
+
+    // 🧾 Lấy giá trị thô từ DOM
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+
+    alert(`Họ tên: ${name}\nEmail: ${email}`);
   };
 
   return (
     <div style={{ padding: 24, fontFamily: "Arial" }}>
-      <h2> Form đơn giản</h2>
+      <h2>📋 Form không dùng state (Uncontrolled)</h2>
 
       <form onSubmit={handleSubmit}>
-        {/* Họ tên */}
+        {/* Input Họ tên */}
         <div>
           <label>Họ tên:</label>
           <br />
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Nhập họ tên"
-          />
+          <input type="text" ref={nameRef} placeholder="Nhập họ tên" />
         </div>
         <br />
 
-        {/* Giới tính */}
+        {/* Input Email */}
         <div>
-          <label>Giới tính:</label>
+          <label>Email:</label>
           <br />
-          <label>
-            <input
-              type="radio"
-              value="Nam"
-              checked={gender === "Nam"}
-              onChange={(e) => setGender(e.target.value)}
-            />
-            Nam
-          </label>{" "}
-          <label>
-            <input
-              type="radio"
-              value="Nữ"
-              checked={gender === "Nữ"}
-              onChange={(e) => setGender(e.target.value)}
-            />
-            Nữ
-          </label>
-        </div>
-        <br />
-
-        {/* Đồng ý */}
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={agree}
-              onChange={(e) => setAgree(e.target.checked)}
-            />
-            Tôi đồng ý điều khoản
-          </label>
+          <input type="email" ref={emailRef} placeholder="Nhập email" />
         </div>
         <br />
 
         <button type="submit">Gửi form</button>
       </form>
-
-      {/* Hiển thị dữ liệu */}
-      <div style={{ marginTop: 24 }}>
-        <h3> Kết quả:</h3>
-        <p>
-          <strong>Họ tên:</strong> {fullName}
-        </p>
-        <p>
-          <strong>Giới tính:</strong> {gender}
-        </p>
-        <p>
-          <strong>Đồng ý điều khoản:</strong> {agree ? " Có" : " Không"}
-        </p>
-      </div>
     </div>
   );
 }
